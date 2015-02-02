@@ -15,36 +15,48 @@ import java.io.IOException;
 public class FractalTree extends PApplet {
 
 private double fractionLength = .8f; 
-private int smallestBranch = 20; 
+private int smallestBranch = 10; 
 private double branchAngle = .2f;  
+private double branchLength = 50;
+private int x = 380;
+private int y = 380;
 public void setup() 
 {   
-	size(640,480);    
-	noLoop(); 
+	size(760,760); 
+	stroke((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255));   
 } 
 public void draw() 
 {   
 	background(0);   
-	stroke(0,0,150);   
-	line(320,480,320,380);   
-	drawBranches(320,380,100,3*Math.PI/2);
+	//stroke(0,0,150); 
+	strokeWeight(3);
+	branchAngle += 0.008f;
+	drawBranches(x,y,branchLength,Math.PI/4);
+	drawBranches(x,y,branchLength,5*Math.PI/4);
+	//drawBranches(x,y,branchLength,Math.PI/2);
+	//drawBranches(x,y,branchLength,2*Math.PI/2);
 } 
-public void drawBranches(int x,int y, double branchLength, double angle) 
+public void drawBranches(int myX,int myY, double myBranchLength, double angle) 
 {   
 	//your code here
+	stroke((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255));  
 	double angle1 = angle + branchAngle;
 	double angle2 = angle - branchAngle;
-	branchLength *= fractionLength;
-	int endX1 = (int)(branchLength*Math.cos(angle1) + x);
-	int endX2 = (int)(branchLength*Math.cos(angle2) + x);
-	int endY1 = (int)(branchLength*Math.sin(angle1) + y);
-	int endY2 = (int)(branchLength*Math.sin(angle2) + y);
-	line(x,y,endX1,endY1);
-	line(x,y,endX2,endY2);
-	if(branchLength >= smallestBranch)
+	myBranchLength *= fractionLength;
+	int endX1 = (int)(branchLength*Math.cos(angle1) + myX);
+	int endX2 = (int)(branchLength*Math.cos(angle2) + myX);
+	int endY1 = (int)(branchLength*Math.sin(angle1) + myY);
+	int endY2 = (int)(branchLength*Math.sin(angle2) + myY);
+
+	if(myBranchLength >= smallestBranch)
 	{
-		drawBranches(endX1, endY1, branchLength, angle1);
-		drawBranches(endX2, endY2, branchLength, angle2);
+
+		drawBranches(endX1, endY1, myBranchLength, angle1);
+		drawBranches(endX2, endY2, myBranchLength, angle2);
+		line(myX,myY,endX1,endY1);
+		line(myX,myY,endX2,endY2);
+		ellipse(endX1,endY1, 5,5);
+		ellipse(endX2,endY2, 5,5);
 	}
 } 
   static public void main(String[] passedArgs) {
